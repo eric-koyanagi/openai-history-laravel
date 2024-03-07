@@ -10,5 +10,13 @@ The idea is that we'll use the API to build static content, with Laravel working
 
 Well...I wanted something even more simple, and I want very explicit control over what leaks into the front end. Using old fashion blade templates with Laravel isn't the worst option for this. 
 
+## Running the App
+
+1. First, seed the schema (TODO) with `php artisan migrate`
+2. Install your API keys into .env (see `.env.example`). This also sets the date ranges you want to generate history for! 
+3. Use the CLI command `php artisan app:get-histories` to obtain the first batch of data from OpenAI. This may take several minutes! Assuming you're on the free plan, you'll eventually get an error and will have to wait until the next day to keep going. 
+4. Once it's done, `php artisan app:get-histories` will report that there's nothing left to fetch. 
+5. Follow the link ('/build-page') to create a static page based on this data. You can really just save this page and upload it somewhere else. 
+
 ## TODO
 `This project is still under construction...give me a few more days and there will be more here` :D 
