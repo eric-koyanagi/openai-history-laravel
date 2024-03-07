@@ -13,6 +13,34 @@ return new class extends Migration
     {
         Schema::create('histories', function (Blueprint $table) {
             $table->id();
+            $table->integer('month')->unsigned()->index();
+            $table->integer('year')->unsigned()->index();
+            $table->text('europe')->nullable();
+            $table->text('north_america')->nullable();
+            $table->text('south_america')->nullable();
+            $table->text('africa')->nullable();
+            $table->text('asia')->nullable();
+            $table->longText('raw_output')->nullable();
+            $table->foreign('run_id')->references('id')->on('runs');
+            $table->timestamps();            
+        });
+
+        Schema::create('data_runs', function (Blueprint $table) {
+            $table->id();
+            $table->integer('start_month')->unsigned();
+            $table->integer('start_year')->unsigned()->index();
+            $table->integer('end_month')->unsigned();
+            $table->integer('end_year')->unsigned()->index();            
+            $table->integer('current_month')->unsigned()->index();
+            $table->integer('current_year')->unsigned()->index();
+            $table->foreign('system_id')->references('id')->on('system_roles');
+            $table->boolean('done')->default(false);            
+            $table->timestamps();
+        });
+
+        Schema::create('system_roles', function (Blueprint $table) {
+            $table->id();
+            $table->text('role');
             $table->timestamps();
         });
     }
