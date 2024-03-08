@@ -29,29 +29,25 @@ class GetHistories extends Command
      */
     public function handle()
     {
-        // 1. Get a strategy, populating it with the system role from input arguments
-        $strategy = $this->getStrategy( $this->argument('role') );
+        // 1. Load or Create a DataRun, which tracks the progress of each full pull from APIs, then instantiate my strategy
+        $run = DataRun::getActiveRun( $this->argument('role'));
+        $strategy = new OpenAIStrategy( $run ); // TODO use a factory here if flexibility with many APIs needed
 
-        // 2. Load or Create a DataRun, which tracks the progress of each full pull from APIs
-        $run = DataRun::getActiveRun();
-
-        // 3. Query and save data for each month in each year until there's nothing left        
+        // 2. Iterate the run for each month and year, executing the strategy to pull data      
+        $result = [];
         while ( !$run->done ) 
         {
-            $result = $strategy->run($run);
-            $this->line($result);
+            $r = $strategy->run($run);
+            $this->line($r);
             $run->next();
+
+            $result[] = $r;
         }
+
+        var_dump($result);
+
+        // 3. Save to the database (or maybe do this with each line, or wrap this in a finally block)
+        // TODO
     }
 
-    protected function getStrategy($roleId) 
-    {        
-        $systemRole = SystemRole::find($roleId);
-        if (!$systemRole) {
-            $this->error('No role found');
-        }
-        
-        // TODO use a factory if I want to return a different strategy, e.g. to experiment with different API types
-        return new OpenAIStrategy($systemRole);
-    }
 }

@@ -4,15 +4,15 @@ namespace App\Strategies;
 
 use App\Interfaces\StrategyInterface;
 use App\Services\OpenAIChatService;
-use App\Models\SystemRole;
+use App\Models\DataRun;
 
 class OpenAIStrategy implements StrategyInterface
 {
-    protected $systemRole;
+    protected $dataRun;
 
-    public function __construct(SystemRole $role) 
+    public function __construct(DataRun $run) 
     {
-        $this->systemRole = $role;
+        $this->dataRun = $run;
     }
 
     public function run(string $prompt) 

@@ -27,14 +27,12 @@ return new class extends Migration
 
         Schema::create('data_runs', function (Blueprint $table) {
             $table->id();
-            $table->integer('start_month')->unsigned();
             $table->integer('start_year')->unsigned()->index();
-            $table->integer('end_month')->unsigned();
             $table->integer('end_year')->unsigned()->index();            
-            $table->integer('current_month')->unsigned()->index();
+            $table->integer('current_month')->unsigned()->default(1)->index();
             $table->integer('current_year')->unsigned()->index();
             $table->foreign('system_id')->references('id')->on('system_roles');
-            $table->boolean('done')->default(false);            
+            $table->boolean('done')->default(false);
             $table->timestamps();
         });
 

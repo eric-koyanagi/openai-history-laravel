@@ -12,9 +12,9 @@ Well...I wanted something even more simple, and I want very explicit control ove
 
 ## Running the App
 
-1. First, seed the schema (TODO) with `php artisan migrate`
+1. First, seed the schema (TODO) with `php artisan migrate`. Populate your first SystemRole into the database manually. 
 2. Install your API keys into .env (see `.env.example`). This also sets the date ranges you want to generate history for! 
-3. Use the CLI command `php artisan app:get-histories` to obtain the first batch of data from OpenAI. This may take several minutes! Assuming you're on the free plan, you'll eventually get an error and will have to wait until the next day to keep going. 
+3. Use the CLI command `php artisan app:get-histories {roleId}` to obtain the first batch of data from OpenAI. This may take several minutes! Assuming you're on the free plan, you'll eventually get an error and will have to wait until the next day to keep going. 
 4. Once it's done, `php artisan app:get-histories` will report that there's nothing left to fetch. 
 5. Follow the link ('/build-page') to create a static page based on this data. You can really just save this page and upload it somewhere else. 
 
@@ -30,7 +30,9 @@ The idea is that we don't just want to import a bunch of data from OpenAI and sa
 Also, this allows us to have many versions of the same data with different prompts *and* different models. 
 
 ## Expansion
-We could create a API interface and code our OpenAPI service against that. Then, we could implement more than just OpenAPI and test how Gemini et. al. handle the same prompts. In my opinion, because there's so much potential trial and error, we need structures like this to tune the content. 
+We could create a API interface and code our OpenAPI service against that. Then, we could implement more than just OpenAPI and test how Gemini et. al. handle the same prompts. In my opinion, because there's so much potential trial and error, we need structures like this to tune the content.
+
+Another simple TODO is to create a WYSIWYG around the SystemRole object. I didn't do this because I am happy enough working in SQL.
 
 ## TODO
 `This project is still under construction...give me a few more days and there will be more here` :D 
