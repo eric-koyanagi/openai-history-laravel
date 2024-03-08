@@ -14,7 +14,7 @@ class OpenAIChatService
         $this->apiKey = $apiKey;
     }
 
-    public function completeChat($prompt, $maxTokens = 150)
+    public function completeChat($prompt, $system, $maxTokens = 150)
     {
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
@@ -24,7 +24,7 @@ class OpenAIChatService
             'messages' => [
                 [
                     'role' => 'system',
-                    'content' => 'Assistant',
+                    'content' => $system,
                 ],
                 [
                     'role' => 'user',

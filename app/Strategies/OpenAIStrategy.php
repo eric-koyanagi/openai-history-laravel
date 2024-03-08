@@ -17,6 +17,10 @@ class OpenAIStrategy implements StrategyInterface
 
     public function run(string $prompt) 
     {
+        $prompt = $this->dataRun->currentMonth . '/' . $this->dataRun->currentYear;
+        $system = $this->dataRun->systemRole->role;        
         $chatService = new OpenAIChatService(env('OPENAI_API_KEY'));
+
+        return $chatService->completeChat($prompt, $system);
     }
 }
