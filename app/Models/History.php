@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
  
 class History extends Model
 {
     use HasFactory;
 
-    public function dataRun(): HasOne
+    public function dataRun(): BelongsTo
     {
-        return $this->hasOne(DataRun::class);
+        return $this->belongsTo(DataRun::class);
     }
 }

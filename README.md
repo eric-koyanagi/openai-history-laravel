@@ -18,5 +18,19 @@ Well...I wanted something even more simple, and I want very explicit control ove
 4. Once it's done, `php artisan app:get-histories` will report that there's nothing left to fetch. 
 5. Follow the link ('/build-page') to create a static page based on this data. You can really just save this page and upload it somewhere else. 
 
+## The Structure
+We have a few structures to support our app: 
+
+- The *History* model stores the output from GPT in a simple, structured way. Histories belong to a DataRun.  
+- The *DataRun* model tracks each "crawl" of data pulled from GPT. This allows us to have very simple persistence in case a crawl is interrupted. Each DataRun has many histories.
+- The *SystemRole* model remembers the exact system role we use to extract data from the API. This allows us to track exactly what prompt is associated with our data.
+
+The idea is that we don't just want to import a bunch of data from OpenAI and save it to the database. Because we know in advance that we may need several iterations to tune the prompt, we want this to be trackable so that we can understand the differences in content between prompts. We could even generate multiple pages side-by-side to see these changes if we want. 
+
+Also, this allows us to have many versions of the same data with different prompts *and* different models. 
+
+## Expansion
+We could create a API interface and code our OpenAPI service against that. Then, we could implement more than just OpenAPI and test how Gemini et. al. handle the same prompts. In my opinion, because there's so much potential trial and error, we need structures like this to tune the content. 
+
 ## TODO
 `This project is still under construction...give me a few more days and there will be more here` :D 

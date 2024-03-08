@@ -4,14 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class SystemRole extends Model
 {
     use HasFactory;
 
-    public function dataRun(): BelongsTo
+    public function dataRun(): HasOne
     {
-        return $this->belongsTo(DataRun::class);
+        return $this->hasOne(DataRun::class);
     }
 }

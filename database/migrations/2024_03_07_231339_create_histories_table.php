@@ -41,6 +41,11 @@ return new class extends Migration
         Schema::create('system_roles', function (Blueprint $table) {
             $table->id();
             $table->text('role');
+            $table->float('temperature')->default(1.0);
+            $table->float('frequency_penalty')->default(0);
+            $table->float('presence_penalty')->default(0);
+            $table->float('top_p')->default(1.0);
+            $table->integer('max_tokens')->default(256);
             $table->timestamps();
         });
     }

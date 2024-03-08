@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DataRun extends Model
 {
@@ -16,8 +16,8 @@ class DataRun extends Model
         return $this->hasMany(DataRun::class);
     }
 
-    public function systemRole(): HasOne
+    public function systemRole(): BelongsTo
     {
-        return $this->hasOne(SystemRole::class);
+        return $this->belongsTo(SystemRole::class);
     }
 }
