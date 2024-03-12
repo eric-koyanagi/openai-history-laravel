@@ -4,12 +4,15 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-use App\Models\SystemRole;
+use App\Models\History;
 use App\Models\DataRun;
 use App\Strategies\OpenAIStrategy;
 
 class GetHistories extends Command
 {
+
+    const SANITY_LIMIT = 24;
+
     /**
      * The name and signature of the console command.
      *
@@ -35,19 +38,52 @@ class GetHistories extends Command
 
         // 2. Iterate the run for each month and year, executing the strategy to pull data      
         $result = [];
+        $i = 0;
         while ( !$run->done ) 
         {
             $r = $strategy->run($run);
-            $this->line($r);
-            $run->next();
+            $this->line("Ran strategy $i");
 
-            $result[] = $r;
+            if (!empty(($r["error"]))) {
+                $this->error("Error: ".$r["error"]["message"]);
+                break;
+            }
+            
+            try {
+                $this->saveResult($r, $run);
+            } catch (\Exception $e) {
+                $this->error("Error saving result: ".$e->getMessage());
+                break;
+            }
+            
+            $run->next();
+            $i++;
+
+            if ($i > self::SANITY_LIMIT) {
+                break;
+            }
         }
 
-        var_dump($result);
+        $this->info("Done importing data.");
+    }
 
-        // 3. Save to the database (or maybe do this with each line, or wrap this in a finally block)
-        // TODO
+    protected function saveResult(array $result, DataRun $run): void
+    {
+        $this->info("Trying to save row...");
+        var_dump($result);
+        $content = json_decode($result["choices"][0]["message"]["content"]);
+        var_dump($content);
+        var_dump($result["choices"][0]["message"]["content"]);
+        $events = $content->events;
+
+        History::create([
+            'run_id' => $run->id,
+            'month' => $run->current_month,
+            'year' => $run->current_year,
+            'event_1' => $events[0]->description ?? null,
+            'event_2' => $events[1]->description ?? null,
+            'event_3' => $events[2]->description ?? null,
+        ]);
     }
 
 }

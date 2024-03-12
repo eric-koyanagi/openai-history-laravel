@@ -4,5 +4,5 @@ namespace App\Interfaces;
 
 interface StrategyInterface 
 {
-    public function run() : void;
+    public function run(string $prompt) : array;
 }

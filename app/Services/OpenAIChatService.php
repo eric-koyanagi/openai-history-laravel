@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
@@ -14,7 +15,7 @@ class OpenAIChatService
         $this->apiKey = $apiKey;
     }
 
-    public function completeChat($prompt, $system, $maxTokens = 150)
+    public function completeChat($prompt, $system, $maxTokens = 150): array
     {
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',

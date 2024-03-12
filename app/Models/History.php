@@ -10,6 +10,8 @@ class History extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function dataRun(): BelongsTo
     {
         return $this->belongsTo(DataRun::class);

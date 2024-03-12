@@ -28,8 +28,8 @@ return new class extends Migration
             $table->integer('end_year')->unsigned()->index();            
             $table->integer('current_month')->unsigned()->default(1)->index();
             $table->integer('current_year')->unsigned()->index();
-            $table->unsignedBigInteger('system_id')->index();
-            $table->foreign('system_id')->references('id')->on('system_roles');
+            $table->unsignedBigInteger('system_role_id')->index();
+            $table->foreign('system_role_id')->references('id')->on('system_roles');
             $table->boolean('done')->default(false);
             $table->timestamps();
         });
@@ -38,12 +38,10 @@ return new class extends Migration
             $table->id();
             $table->integer('month')->unsigned()->index();
             $table->integer('year')->unsigned()->index();
-            $table->text('europe')->nullable();
-            $table->text('north_america')->nullable();
-            $table->text('south_america')->nullable();
-            $table->text('africa')->nullable();
-            $table->text('asia')->nullable();
-            $table->longText('raw_output')->nullable();
+            $table->text('event_1')->nullable();
+            $table->text('event_2')->nullable();
+            $table->text('event_3')->nullable();            
+            $table->jsonb('raw_output')->nullable();
             $table->unsignedBigInteger('run_id')->index();
             $table->foreign('run_id')->references('id')->on('data_runs');
             $table->timestamps();
