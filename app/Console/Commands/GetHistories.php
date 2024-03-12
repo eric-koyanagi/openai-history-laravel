@@ -69,11 +69,9 @@ class GetHistories extends Command
 
     protected function saveResult(array $result, DataRun $run): void
     {
-        $this->info("Trying to save row...");
-        var_dump($result);
-        $content = json_decode($result["choices"][0]["message"]["content"]);
-        var_dump($content);
-        var_dump($result["choices"][0]["message"]["content"]);
+        $this->info("Trying to save row:");        
+        $this->line($result["choices"][0]["message"]["content"]);
+        $content = json_decode($result["choices"][0]["message"]["content"]);       
         $events = $content->events;
 
         History::create([

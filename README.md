@@ -14,9 +14,9 @@ Well...I wanted something even more simple, and I want very explicit control ove
 
 1. First, seed the schema (TODO) with `php artisan migrate`. Populate your first SystemRole into the database manually. 
 2. Install your API keys into .env (see `.env.example`). This also sets the date ranges you want to generate history for! 
-3. Use the CLI command `php artisan app:get-histories {roleId}` to obtain the first batch of data from OpenAI. This may take several minutes! Assuming you're on the free plan, you'll eventually get an error and will have to wait until the next day to keep going. 
-4. Once it's done, `php artisan app:get-histories` will report that there's nothing left to fetch. 
-5. Follow the link ('/build-page') to create a static page based on this data. You can really just save this page and upload it somewhere else. 
+3. Use the CLI command `php artisan app:get-histories {roleId}` to obtain the first batch of data from OpenAI. This may take several minutes! You may need to try multiple times, especially if on the free plan where limits are strict.
+5. Go to http://localhost:8000/build-page (or use whatever port you're running the local site on) to create a static page based on this data. You can really just save this page and upload it somewhere else!
+6. The key with generative AI is iteration. You may need to tune your prompt and try again. Go back to step 3 and the system will repull if you provide a new roleId. The page builder always uses the freshes data to build a page.
 
 ## The Structure
 We have a few structures to support our app: 

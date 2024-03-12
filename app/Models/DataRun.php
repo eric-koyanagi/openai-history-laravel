@@ -17,7 +17,7 @@ class DataRun extends Model
 
     public function histories(): HasMany
     {
-        return $this->hasMany(DataRun::class);
+        return $this->hasMany(History::class, 'run_id');
     }
 
     public function systemRole(): BelongsTo
