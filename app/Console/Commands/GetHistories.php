@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 
 use App\Models\SystemRole;
-use App\Models\DataRun
+use App\Models\DataRun;
 use App\Strategies\OpenAIStrategy;
 
 class GetHistories extends Command

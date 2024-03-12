@@ -11,31 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('histories', function (Blueprint $table) {
-            $table->id();
-            $table->integer('month')->unsigned()->index();
-            $table->integer('year')->unsigned()->index();
-            $table->text('europe')->nullable();
-            $table->text('north_america')->nullable();
-            $table->text('south_america')->nullable();
-            $table->text('africa')->nullable();
-            $table->text('asia')->nullable();
-            $table->longText('raw_output')->nullable();
-            $table->foreign('run_id')->references('id')->on('runs');
-            $table->timestamps();            
-        });
-
-        Schema::create('data_runs', function (Blueprint $table) {
-            $table->id();
-            $table->integer('start_year')->unsigned()->index();
-            $table->integer('end_year')->unsigned()->index();            
-            $table->integer('current_month')->unsigned()->default(1)->index();
-            $table->integer('current_year')->unsigned()->index();
-            $table->foreign('system_id')->references('id')->on('system_roles');
-            $table->boolean('done')->default(false);
-            $table->timestamps();
-        });
-
         Schema::create('system_roles', function (Blueprint $table) {
             $table->id();
             $table->text('role');
@@ -46,6 +21,35 @@ return new class extends Migration
             $table->integer('max_tokens')->default(256);
             $table->timestamps();
         });
+
+        Schema::create('data_runs', function (Blueprint $table) {
+            $table->id();
+            $table->integer('start_year')->unsigned()->index();
+            $table->integer('end_year')->unsigned()->index();            
+            $table->integer('current_month')->unsigned()->default(1)->index();
+            $table->integer('current_year')->unsigned()->index();
+            $table->unsignedBigInteger('system_id')->index();
+            $table->foreign('system_id')->references('id')->on('system_roles');
+            $table->boolean('done')->default(false);
+            $table->timestamps();
+        });
+
+        Schema::create('histories', function (Blueprint $table) {
+            $table->id();
+            $table->integer('month')->unsigned()->index();
+            $table->integer('year')->unsigned()->index();
+            $table->text('europe')->nullable();
+            $table->text('north_america')->nullable();
+            $table->text('south_america')->nullable();
+            $table->text('africa')->nullable();
+            $table->text('asia')->nullable();
+            $table->longText('raw_output')->nullable();
+            $table->unsignedBigInteger('run_id')->index();
+            $table->foreign('run_id')->references('id')->on('data_runs');
+            $table->timestamps();
+        });
+
+        
     }
 
     /**
@@ -54,5 +58,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('histories');
+        Schema::dropIfExists('data_runs');
+        Schema::dropIfExists('system_roles');
     }
 };
