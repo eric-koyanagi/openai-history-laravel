@@ -19,9 +19,9 @@
         <?php var_dump($run); ?>
         <?php foreach($run->histories as $history): ?>
             <h2>{{$history->month}}/{{$history->year}}</h2>
-            <div>{{ $history->event_1; }}</div>
-            <div>{{ $history->event_2; }}</div>
-            <div>{{ $history->event_3; }}</div>
+            <div>{{ $history->event_1 }}</div>
+            <div>{{ $history->event_2 }}</div>
+            <div>{{ $history->event_3 }}</div>
             <hr/>
         <?php endforeach; ?>
     </body>
