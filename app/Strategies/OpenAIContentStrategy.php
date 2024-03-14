@@ -28,7 +28,8 @@ class OpenAIContentStrategy implements StrategyInterface
             return false;
         }
         
-        $r = $this->run($run);
+        $prompt = date('F Y', mktime(0, 0, 0, $this->dataRun->current_month, 1, $this->dataRun->current_year));
+        $r = $this->getData($prompt);
         $this->cmd->line("Ran strategy");
 
         if (!empty(($r["error"]))) {
@@ -48,9 +49,8 @@ class OpenAIContentStrategy implements StrategyInterface
         return true;
     }
 
-    public function run(string $prompt): array
-    {
-        $prompt = date('F Y', mktime(0, 0, 0, $this->dataRun->current_month, 1, $this->dataRun->current_year)); //$this->dataRun->currentMonth . ' ' . $this->dataRun->currentYear;
+    public function getData(string $prompt): array
+    {        
         $system = $this->dataRun->systemRole->role; 
         $maxTokens = $this->dataRun->systemRole->max_tokens;
         $model = $this->dataRun->systemRole->model;

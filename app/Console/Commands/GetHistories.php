@@ -7,11 +7,12 @@ use Illuminate\Console\Command;
 use App\Models\History;
 use App\Models\DataRun;
 use App\Strategies\OpenAIContentStrategy;
+use App\Strategies\OpenAIPoemStrategy;
 
 class GetHistories extends Command
 {
 
-    const SANITY_LIMIT = 24;
+    const SANITY_LIMIT = 1;
 
     /**
      * The name and signature of the console command.
@@ -34,7 +35,8 @@ class GetHistories extends Command
     {
         // 1. Load or Create a DataRun, which tracks the progress of each full pull from APIs, then instantiate my strategy
         $run = DataRun::getActiveRun( $this->argument('role'));
-        $strategy = new OpenAIContentStrategy( $run, $this ); 
+        //$strategy = new OpenAIContentStrategy( $run, $this ); 
+        $strategy = new OpenAIPoemStrategy( $run, $this ); 
         
         $i = 0;
         while ($strategy->loop()) {

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class OpenAIChatService
 {
@@ -35,5 +36,24 @@ class OpenAIChatService
         ]);
 
         return $response->json();
+    }
+
+    public function getSpeech($prompt, $id, $voice='') 
+    {
+        if (empty($voice)) {
+            $values = ['alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer'];
+            $voice = $values[array_rand($values)];
+        }
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $this->apiKey,            
+        ])->post($this->baseUrl . '/audio/speech', [
+            'model' => 'tts-1',
+            'input' => $prompt,
+            'voice' => $voice,
+        ]);
+        
+        Storage::disk('local')->put("$id.mp3", $response->body());
     }
 }
