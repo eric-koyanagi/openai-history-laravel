@@ -12,7 +12,7 @@ use App\Strategies\OpenAIPoemStrategy;
 class GetHistories extends Command
 {
 
-    const SANITY_LIMIT = 1;
+    const SANITY_LIMIT = 12;
 
     /**
      * The name and signature of the console command.
@@ -35,6 +35,7 @@ class GetHistories extends Command
     {
         // 1. Load or Create a DataRun, which tracks the progress of each full pull from APIs, then instantiate my strategy
         $run = DataRun::getActiveRun( $this->argument('role'));
+
         //$strategy = new OpenAIContentStrategy( $run, $this ); 
         $strategy = new OpenAIPoemStrategy( $run, $this ); 
         

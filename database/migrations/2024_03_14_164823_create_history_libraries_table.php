@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('history_libraries', function (Blueprint $table) {
             $table->id();
             $table->text('event');
+            $table->text('image_prompt');
             $table->integer('month')->unsigned()->index();
             $table->integer('year')->unsigned()->index();
             $table->timestamps();

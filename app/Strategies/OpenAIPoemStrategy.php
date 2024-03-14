@@ -28,6 +28,8 @@ class OpenAIPoemStrategy implements StrategyInterface
         $run = $this->dataRun;
 
         if ($run->done) {
+            echo "Run is done on 31.";
+            var_dump($run);
             return false;
         }
         
@@ -52,6 +54,7 @@ class OpenAIPoemStrategy implements StrategyInterface
         ]);
 
         $this->saveAudioData($poem, $poemRecord->id);
+        $this->saveImageData($library->image_prompt, $poemRecord->id);
         
         $run->next();  
         return true;
@@ -69,6 +72,11 @@ class OpenAIPoemStrategy implements StrategyInterface
     public function saveAudioData(string $poem, int $id) 
     {
         $this->chatService->getSpeech($poem, $id);        
+    }
+
+    public function saveImageData(string $prompt, int $id) 
+    {
+        $this->chatService->getImage($prompt, $id);        
     }
 
     protected function saveResult(array $result, DataRun $run): void

@@ -48,12 +48,43 @@ class OpenAIChatService
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'Authorization' => 'Bearer ' . $this->apiKey,            
-        ])->post($this->baseUrl . '/audio/speech', [
+        ])->post($this->baseUrl . 'audio/speech', [
             'model' => 'tts-1',
             'input' => $prompt,
             'voice' => $voice,
         ]);
         
         Storage::disk('local')->put("$id.mp3", $response->body());
+    }
+
+    public function getImage($prompt, $id, $model='dall-e-3') 
+    {
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $this->apiKey,            
+        ])->post($this->baseUrl . 'images/generations', [
+            'model' => $model,
+            'prompt' => $prompt,
+            'n' => 1,
+            'size' => '1024x1024',
+            'response_format' => 'b64_json'
+        ]);
+
+        if ($response->successful()) 
+        {            
+            $responseData = $response->json();
+            $imageData = $responseData['data'][0]['b64_json'];
+            Storage::disk('local')->put("$id.png", base64_decode($imageData));
+        } else {
+            echo "UNABLE TO MAKE IMAGE";
+            var_dump([
+                'model' => $model,
+                'prompt' => $prompt,
+                'n' => 1,
+                'size' => '1024x1024',
+                'response_format' => 'b64_json'
+            ]);
+            var_dump($response->status());
+        }               
     }
 }

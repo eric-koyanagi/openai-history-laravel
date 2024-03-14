@@ -13,6 +13,10 @@ class DataRun extends Model
 
     use HasFactory;
 
+    protected $attributes = [
+        'done' => false,
+    ];
+
     protected $guarded = [];
 
     public function histories(): HasMany
@@ -37,12 +41,16 @@ class DataRun extends Model
         $existing = self::where([["done", false], ["system_role_id", $roleId]])->with(['systemRole'])->orderBy("id","desc")->first();
         if (!$existing) 
         {
-            return DataRun::create([
+            $newRun = DataRun::create([
                 'start_year' => env('HISTORY_START_YEAR'),
                 'end_year' => env('HISTORY_END_YEAR'),
                 'current_year' => env('HISTORY_START_YEAR'),
-                'system_role_id' => $roleId
-            ])->with(['systemRole'])->first();
+                'system_role_id' => $roleId,
+                'done' => false
+            ]);
+
+            $newRun->load('systemRole');
+            return $newRun;
         }
 
         return $existing;
