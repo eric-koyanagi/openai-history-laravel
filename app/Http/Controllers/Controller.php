@@ -14,11 +14,11 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    public function buildPage(Request $request) 
+    public function buildPage(Request $request, string $runId) 
     {
-        $run = DataRun::where([['done', true]])->orderBy("created_at","desc")->first();
+        $run = DataRun::find($runId);
         if (!$run) {
-            
+            abort(404);
         }
 
         return view('history', ['run' => $run]);        

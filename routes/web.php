@@ -18,4 +18,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/build-page', [Controller::class, 'buildPage']);
+Route::get('/build-page/{runId}', [Controller::class, 'buildPage']);

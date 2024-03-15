@@ -24,6 +24,11 @@ class DataRun extends Model
         return $this->hasMany(History::class, 'run_id');
     }
 
+    public function historyPoems(): HasMany
+    {
+        return $this->hasMany(HistoryPoem::class, 'run_id');
+    }
+
     public function systemRole(): BelongsTo
     {
         return $this->belongsTo(SystemRole::class);

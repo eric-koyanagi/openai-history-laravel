@@ -28,8 +28,6 @@ class OpenAIPoemStrategy implements StrategyInterface
         $run = $this->dataRun;
 
         if ($run->done) {
-            echo "Run is done on 31.";
-            var_dump($run);
             return false;
         }
         
@@ -56,8 +54,11 @@ class OpenAIPoemStrategy implements StrategyInterface
         $this->saveAudioData($poem, $poemRecord->id);
         $this->saveImageData($library->image_prompt, $poemRecord->id);
         
-        $run->next();  
-        return true;
+        $run->next(); 
+        
+        // this means it only does pulls one event at a time
+        // TODO create a supervisor/queue that can rate-limit (RPM) automatically
+        return false; 
     }
 
     public function getData(string $prompt): array
