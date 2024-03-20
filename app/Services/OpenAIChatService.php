@@ -15,7 +15,7 @@ class OpenAIChatService
         $this->apiKey = $apiKey;
     }
 
-    public function completeChat($prompt, $system, $maxTokens = 150, $model='gpt-3.5-turbo'): array
+    public function completeChat(string $prompt, string $system, int $maxTokens = 150, string $model='gpt-3.5-turbo'): array
     {
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
@@ -38,7 +38,7 @@ class OpenAIChatService
         return $response->json();
     }
 
-    public function getSpeech($prompt, $id, $voice='') 
+    public function getSpeech(string $prompt, int $id, string $voice='') 
     {
         if (empty($voice)) {
             $values = ['alloy', 'echo', 'fable', 'onyx', 'nova', 'shimmer'];
@@ -57,7 +57,7 @@ class OpenAIChatService
         Storage::disk('local')->put("$id.mp3", $response->body());
     }
 
-    public function getImage($prompt, $id, $model='dall-e-3') 
+    public function getImage(string $prompt, int $id, string $model='dall-e-3') 
     {
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',

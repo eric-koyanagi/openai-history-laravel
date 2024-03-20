@@ -18,7 +18,7 @@
     
 
         <?php foreach($run->historyPoems as $history): ?>
-            <div class="bg-fixed bg-cover w-100 min-h-60 py-28 relative" style="background-image:url('{{ asset($history->id.'.png') }}')">
+            <div class="bg-fixed bg-cover w-100 min-h-60 py-28 relative" style="background-image:url('./{{ $history->id.'.png' }}')">
                 <div class="absolute relative w-full h-full z-10">
                     <h2 class="text-2xl sm:text-4xl py-4 text-center text-white">{{$history->name}}</h2>
 
@@ -29,7 +29,7 @@
                             <div>{!! nl2br($history->poem) !!}</div>
 
                             <audio controls class="pt-3">
-                              <source src="{{ asset($history->id.'.mp3') }}" type="audio/mpeg">
+                              <source src="./{{ $history->id.'.mp3' }}" type="audio/mpeg">
                                 Your browser does not support the audio element.
                             </audio>
                         </div>
